@@ -1,0 +1,913 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Press Start 2P", cursive;
+  background-color: #f4f4f4;
+  color: #333;
+  background: linear-gradient(to right, #a000df, #131313);
+  background-attachment: fixed;
+}
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Coloca o vídeo atrás de todo o conteúdo */
+  overflow: hidden;
+}
+.bg-video::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
+  z-index: 1; /* Garante que o pseudo-elemento fique atrás do conteúdo */
+  background: linear-gradient(
+    to right,
+    rgba(27, 27, 27, 0.5),
+    rgba(12, 12, 12, 0.5),
+    rgba(162, 180, 1, 0.5)
+  );
+}
+.bg-video .video {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centraliza o vídeo */
+  object-fit: cover; /* Garante que o vídeo preencha todo o container */
+}
+.container {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  height: 100vh;
+}
+
+/* Garantir que o conteúdo fique sobre o vídeo */
+h1,
+p,
+.container {
+  position: relative;
+  z-index: 1;
+  margin-top: none;
+}
+.container__left {
+  width: 35%;
+  min-width: 300px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.container__right {
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Mudando para flex-start se quiser alinhar à esquerda */
+  justify-content: center;
+}
+/* Estilização da caixa de pontuação com bordas RPG */
+.score_box {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 3px solid #a38b00; /* Borda dourada */
+
+  /* Aplicando a borda RPG dourada */
+
+  /* Aplicando fundo RPG */
+  background: url("../assets/rpg/background-image-golden.png") repeat; /* CORRIGIDO */
+  background-color: #382818;
+
+  /* Outros estilos */
+  color: #ffd700;
+  text-shadow: 1px 1px 2px black;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Estilo para o texto dentro da caixa de pontuação */
+#score_points {
+  font-size: 1.2rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* Adicionando um efeito de destaque quando a pontuação muda */
+.score_box.highlight {
+  animation: score-pulse 1s ease-in-out;
+}
+
+@keyframes score-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.card-details {
+  border-image-source: url(../src/assets/rpg/border-image-golden.png);
+  border-style: solid;
+  padding: 0.3rem;
+  border-radius: 1px;
+  box-shadow: 0px 6px 7px rgb(0, 0, 0);
+  text-align: center;
+  justify-content: space-around;
+  height: 120px;
+}
+.card-details p {
+  font-size: 1.2rem;
+  padding: 0.9rem;
+}
+#card-name {
+  font-size: 0.8rem;
+}
+#card-type {
+  font-size: 1rem;
+}
+.card-box__container {
+  height: 100vh;
+  width: 100%; /* Garante que o contêiner pai também ocupe 100% */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 0.3rem;
+}
+
+.card-versus {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.1rem;
+  height: 300px;
+  width: 100%; /* Alterado de 70% para 100% */
+  margin: 10px 0; /* Simplificado as margens */
+  margin-left: 0; /* Removido o deslocamento de 200px */
+}
+
+/* Estilização para a área versus-top */
+.versus-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.4)
+  );
+  border: 2px solid #b8860b;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.versus-top::before {
+  content: "VS";
+  position: absolute;
+  font-size: 4rem;
+  color: rgba(255, 215, 0, 0.2);
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-10deg);
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+.versus-top img[src*="millenium"] {
+  animation: pulse 2s infinite alternate-reverse;
+  filter: drop-shadow(0 0 8px gold);
+  transform-origin: center center;
+  z-index: 5;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.versus-bottom {
+  height: 9rem;
+  width: 100%; /* Garante que ocupe toda a largura disponível */
+  max-width: 100%; /* Impede que ultrapasse o tamanho do contêiner pai */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0; /* Remove possíveis margens */
+  padding: 0 10px; /* Mantém um pequeno padding lateral */
+  margin-top: 1rem; /* Mantém o espaçamento superior */
+}
+
+.card-infield {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 185px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+#next-duel {
+  display: none;
+}
+.card-box {
+  height: auto; /* Alterado de 9rem para auto */
+  min-height: 12rem; /* Adicionado min-height para garantir espaço suficiente */
+  width: 100%; /* Garante que ocupe toda a largura disponível */
+  max-width: 100%; /* Impede que ultrapasse o tamanho do contêiner pai */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px; /* Mantém um pequeno padding lateral */
+}
+.card-infield {
+  height: 11.2rem;
+  width: 130px;
+  border: 1px solid wheat;
+  border-radius: 8px;
+  overflow: visible; /* Garantir que o conteúdo seja visível */
+}
+#player-field-card,
+#computer-field-card,
+.card-box img {
+  border: 2px solid yellow; /* Borda para visualizar onde estão as imagens */
+  background-color: rgba(
+    255,
+    0,
+    0,
+    0.2
+  ); /* Fundo sutil para visualizar o elemento */
+}
+.card-box,
+.card-versus,
+.card-infield {
+  border-style: solid;
+    border-image-source: url(../assets/rpg/border-image.png);
+    border-image-repeat: repeat;
+    border-image-slice: 6 6 6 6;
+    border-image-width: 18px;
+    border-width: 15px;
+    padding: 12px;
+  position: relative;
+  z-index: 5; /* Garantir que fiquem acima de outros elementos */
+}
+
+/* Estilo para as cartas no container */
+.card {
+  width: 120px;
+  height: 170px;
+  margin: 10px;
+  cursor: pointer;
+  perspective: 1000px; /* Perspectiva para efeito 3D */
+  position: relative;
+  display: inline-block; /* Importante: para exibir as cartas lado a lado */
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  border: 2px solid gold;
+  overflow: hidden;
+}
+
+.card-front {
+  transform: rotateY(180deg);
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-back {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.card-back img,
+.card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-status {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 3px 0;
+}
+
+/* Estilo para cartas selecionadas */
+.selected {
+  border: 3px solid lime;
+  box-shadow: 0 0 10px lime;
+}
+
+/* Estilização para a área de detalhes da carta */
+.card-details {
+  padding: 20px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8),
+    rgba(20, 10, 40, 0.7)
+  );
+  border: 3px solid #b8860b;
+  border-radius: 8px;
+  margin-top: 15px;
+  box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.6),
+    0 0 15px rgba(255, 215, 0, 0.3);
+  color: white;
+  text-shadow: 0 1px 2px black;
+  position: relative;
+  z-index: 5;
+  max-height: 500px;
+  transition: all 0.3s ease;
+}
+
+.card-details.highlight {
+  animation: card-pulse 1s;
+}
+
+@keyframes card-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.6);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: inset 0 0 30px rgba(255, 215, 0, 0.8),
+      0 0 25px rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.6);
+  }
+}
+
+.card-details::before {
+  content: "CARD INFO";
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background-color: #b8860b;
+  padding: 2px 10px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilização específica para a descrição da carta */
+#card_description {
+  font-size: 1rem;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+#card_type {
+  font-size: 0.8rem;
+  color: #e6e6e6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#card_type::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#card_type.Paper::before {
+  background-image: url("src/assets/icons/paper-icon.png");
+  /* Caso não tenha esse ícone, você pode remover ou substituir */
+}
+
+#card_type.Rock::before {
+  background-image: url("src/assets/icons/rock-icon.png");
+  /* Caso não tenha esse ícone, você pode remover ou substituir */
+}
+
+#card_type.Scissors::before {
+  background-image: url("src/assets/icons/scissors-icon.png");
+  /* Caso não tenha esse ícone, você pode remover ou substituir */
+}
+
+/* Status da carta (vence/perde) */
+.card-relation {
+  margin-top: 15px;
+  font-size: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wins-against,
+.loses-to {
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wins-against {
+  background-color: rgba(0, 128, 0, 0.3);
+  border-left: 3px solid #32cd32;
+}
+
+.loses-to {
+  background-color: rgba(128, 0, 0, 0.3);
+  border-left: 3px solid #ff4500;
+}
+
+/* === SEÇÃO DE BOTÕES CORRIGIDA === */
+
+/* Container para os botões */
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+  height: 60px; /* Altura fixa para evitar que o layout pule */
+}
+
+/* Classe para esconder elementos */
+.hidden {
+  display: none !important; /* !important para garantir que sempre esconda */
+}
+
+/* Estilo base para os botões */
+.rpgui-button {
+  transition: all 0.3s ease;
+  border: 2px solid #ffd700;
+  text-shadow: 0 1px 2px black;
+  font-weight: bold;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  padding: 10px 15px;
+  cursor: pointer;
+  min-width: 180px;
+  text-align: center;
+}
+
+.rpgui-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Estilos específicos para os diferentes resultados */
+.win-button {
+  background-color: #006400;
+  border-color: #00ff00;
+  animation: win-pulse 1.5s infinite alternate;
+}
+
+.lose-button {
+  background-color: #8b0000;
+  border-color: #ff4500;
+}
+
+.draw-button {
+  background-color: #4b0082;
+  border-color: #9932cc;
+}
+
+/* Botão de reinício de rodada */
+#restart-round {
+  background-color: #8b4513;
+}
+
+/* Animação para a vitória */
+@keyframes win-pulse {
+  from {
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.8), 0 0 30px rgba(0, 255, 0, 0.4);
+  }
+}
+
+/* === FIM DA SEÇÃO DE BOTÕES CORRIGIDA === */
+
+.card-field-container {
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  position: relative;
+}
+
+.card-field-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-field-back,
+.card-field-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-field-back {
+  background-color: #2a1a41; /* Cor de fundo mais escura e temática */
+  border: 1px solid #daa520;
+}
+
+.card-field-front {
+  transform: rotateY(180deg);
+  background-color: #ffffff;
+}
+
+/* Melhorando o dimensionamento das imagens */
+.card-field-back img,
+.card-field-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Garante que a imagem cubra todo o espaço */
+  display: block; /* Remove espaço extra abaixo da imagem */
+}
+
+/* Efeito de brilho refinado */
+@keyframes card-reveal-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.7), 0 0 40px rgba(148, 0, 211, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+}
+
+/* Ajustando o tamanho da área versus para melhor dispor as cartas */
+.versus-top {
+  padding: 20px;
+  gap: 15px; /* Espaçamento entre os elementos */
+}
+
+/* Remover estilos anteriores de debug */
+#player-field-card,
+#computer-field-card {
+  border: none;
+  background-color: transparent;
+}
+
+/* Adicionando efeito de hover nas cartas do campo */
+.card-infield:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(218, 165, 32, 0.4);
+}
+
+/* Ajustes para a carta do campo */
+.card-infield {
+  height: 180px;
+  width: 130px;
+  border: 2px solid #b8860b;
+  border-radius: 8px;
+  overflow: hidden; /* Alterado para hidden para conter a imagem */
+  background: transparent;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* Estilização melhorada para o container da carta */
+.card-field-container {
+  width: 100%;
+  height: 100%;
+  perspective: 1000px;
+  position: relative;
+}
+
+.card-field-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-field-back,
+.card-field-front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-field-back {
+  background-color: #2a1a41; /* Cor de fundo mais escura e temática */
+  border: 1px solid #daa520;
+}
+
+.card-field-front {
+  transform: rotateY(180deg);
+  background-color: #ffffff;
+}
+
+/* Melhorando o dimensionamento das imagens */
+.card-field-back img,
+.card-field-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Garante que a imagem cubra todo o espaço */
+  display: block; /* Remove espaço extra abaixo da imagem */
+}
+
+/* Efeito de brilho refinado */
+@keyframes card-reveal-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.7), 0 0 40px rgba(148, 0, 211, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  }
+}
+
+.card-field-container.flipped {
+  animation: card-reveal-glow 1.2s ease-out;
+}
+
+/* Garantindo que os contêineres de versus mantenham o estilo atual */
+.versus-top,
+.versus-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+/* Adicione esta regra específica - IMPORTANTE! */
+.card-field-container.flipped .card-field-inner {
+  transform: rotateY(180deg);
+}
+
+/* O restante do seu CSS para as cartas já está correto */
+
+/* Efeito para quando o computador escolher a mesma carta */
+.versus-top.same-choice {
+  animation: same-choice-pulse 1.5s ease;
+  border-color: #ff9900;
+}
+
+@keyframes same-choice-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.4)
+    );
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 153, 0, 0.8);
+    background: linear-gradient(
+      to bottom,
+      rgba(128, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.3)
+    );
+  }
+}
+
+/* Estilização do menu_avatar com a carta centralizada */
+.menu_avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 220px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de fundo com brilho */
+.menu_avatar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 215, 0, 0.1) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* Estilização da carta */
+#card-image {
+  max-width: 80%;
+  max-height: 200px;
+  object-fit: contain;
+  border: 2px solid #b8860b;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.3);
+  position: relative;
+  z-index: 2;
+  transform: perspective(800px) rotateY(0deg);
+}
+
+/* Efeito hover na carta */
+#card-image:hover {
+  transform: perspective(800px) rotateY(5deg) translateY(-5px);
+  box-shadow: 10px 15px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+/* Animação quando a carta muda */
+@keyframes card-change {
+  0% {
+    opacity: 0;
+    transform: perspective(800px) rotateY(-20deg) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: perspective(800px) rotateY(0) scale(1);
+  }
+}
+
+/* Classe para ser adicionada quando a carta muda */
+.card-changing {
+  animation: card-change 0.5s ease forwards;
+}
+
+/* Ocultar imagens sem source definido */
+img:not([src]),
+img[src=""],
+img[src=" "] {
+  visibility: hidden;
+  display: none;
+}
+
+/* Se a imagem estiver dentro do score_box */
+.score_box img:not([src]),
+.score_box img[src=""],
+.score_box img[src=" "] {
+  display: none;
+}
+
+/* Estilo para o contador de rodadas */
+.round-counter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  gap: 8px;
+  padding: 5px;
+  border-top: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+#round-counter {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #b8860b;
+  color: #ffd700;
+  font-weight: bold;
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+/* Animação do contador de rodadas quando muda */
+@keyframes round-change {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.round-changing {
+  animation: round-change 0.5s ease-in-out;
+}
+
+/* Estilo para a tela de fim de jogo */
+.game-over {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  animation: fadeIn 1s ease-in;
+}
+
+.game-over h2 {
+  font-size: 2rem;
+  color: #ffd700;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.game-over p {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+#restart-game {
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
