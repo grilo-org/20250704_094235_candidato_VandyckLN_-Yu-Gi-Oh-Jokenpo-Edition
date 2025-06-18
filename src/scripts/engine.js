@@ -31,7 +31,7 @@ const cardData = [
     // VERIFIQUE SE ESTES ARQUIVOS EXISTEM NA PASTA 'src/assets/icons/'
     { id: 3, name: "Dragão Negro de Olhos Vermelhos", type: "Scissors", img: `${pathImages}red-eyes-black-dragon.jpeg`, WinOf: [1, 7], LoseOf: [0, 4] },
     { id: 4, name: "Mago do Tempo", type: "Rock", img: `${pathImages}timeWizard.png`, WinOf: [3, 6], LoseOf: [2, 5] },
-    { id: 5, name: "Kuriboh", type: "Paper", img: `${pathImages}kuriboh.png`, WinOf: [4, 7], LoseOf: [3, 6] },
+    { id: 5, name: "Kuriboh", type: "Paper", img: `${pathImages}Kuriboh.png`, WinOf: [4, 7], LoseOf: [3, 6] },
     { id: 6, name: "Slifer, o Dragão do Céu", type: "Scissors", img: `${pathImages}slifer.jpeg`, WinOf: [5, 1], LoseOf: [0, 7] },
     { id: 7, name: "Obelisco, o Atormentador", type: "Rock", img: `${pathImages}obelisk.jpeg`, WinOf: [6, 3], LoseOf: [5, 2] }
 ];
