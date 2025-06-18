@@ -74,4 +74,4 @@ Yugi-Yo/
 
 ---
 
-Feito por **[Seu Nome]**
+Feito por Vandyck Diniz
